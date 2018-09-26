@@ -14,6 +14,14 @@ angular.module('listings').controller('ListingsController', ['$scope', 'Listings
 	  *Save the article using the Listings factory. If the object is successfully 
 	  saved redirect back to the list page. Otherwise, display the error
 	 */
+    Listings.create($scope.newListing);
+    Listings.getAll().then(function(response) {
+      $scope.listings = response.data;
+    }, function(error) {
+      console.log('Unable to retrieve listings:', error);
+    });
+    
+
     };
 
     $scope.deleteListing = function(index) {
@@ -21,6 +29,13 @@ angular.module('listings').controller('ListingsController', ['$scope', 'Listings
         Delete the article using the Listings factory. If the removal is successful, 
 		navigate back to 'listing.list'. Otherwise, display the error. 
        */
+      var id = $scope.listings[index]._id
+        Listings.delete(id);
+        Listings.getAll().then(function(response) {
+          $scope.listings = response.data;
+        }, function(error) {
+          console.log('Unable to retrieve listings:', error);
+        });
     };
 
     $scope.showDetails = function(index) {
